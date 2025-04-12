@@ -1,0 +1,19 @@
+know() {
+	if [ "$1" = 'new' ] || [ "$1" = 'ne' ] || [ "$1" = 'n' ]
+		then
+			$REPO/know.sh new $2
+	elif [ "$1" = 'find' ] || [ "$1" = 'fi' ] || [ "$1" = 'f' ]
+		then
+			$REPO/know.sh find $2
+	elif [ "$1" = 'edit' ] || [ "$1" = 'ed' ] || [ "$1" = 'e' ]
+		then
+			$REPO/know.sh edit $2
+	else
+		echo "Unknown command '$1'"
+	fi
+}
+
+kn() {
+	know "$@"
+}
+
