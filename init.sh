@@ -42,6 +42,8 @@ if [ -a "$cfg" ]; then
 
 	echo "#! /bin/bash" > "${functions_file}"
 	echo "REPO=$REPO" >> "${functions_file}"
+	echo "EDITOR=$EDITOR" >> "${functions_file}"
+	echo "VIEWER=$VIEWER" >> "${functions_file}"
 	cat "$REPO/functions.template" >> "${functions_file}"
 
 	echo "Done. Please add 'source ${functions_file}' to your .bashrc"

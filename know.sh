@@ -19,10 +19,12 @@ on_edit() {
 }
 
 new() {
-    TMP_FILENAME=$(uuidgen -r)
-	TMP_FILE=/tmp/"$TMP_FILENAME"
+	TMP_FILENAME=$(uuidgen -r)
+	TMP_FILE="${REPO}/${TMP_FILENAME}"
 
 	if [ -n "$1" ]; then
+		TMP_FILENAME="$(basename $1)".edit.tmp
+		TMP_FILE="${REPO}/${TMP_FILENAME}"
 		touch "$TMP_FILE"
 		cat "$1" > "$TMP_FILE"
 	fi
@@ -124,20 +126,30 @@ delete_by_file() {
 	rm "$1"
 }
 
+git_sync() {
+	back=$(pwd)
+	cd $REPO
+        git pull origin
+	cd "$back"
+}
+
 COMMAND=$1
 ARG_1=$2
 REPO=$(dirname $(realpath $0))
 
 if [ "$COMMAND" = "new" ]
   then
-    new
+	git_sync
+        new
 	on_add "$added"
 elif [ "$COMMAND" = 'find' ]
   then
+	git_sync
 	find "$ARG_1"
 	less "$REPO/$found"
 elif [ "$COMMAND" = 'edit' ]
   then
+	git_sync
 	find "$ARG_1"
 
 	if [ -n "$REPO/$found" ]; then
